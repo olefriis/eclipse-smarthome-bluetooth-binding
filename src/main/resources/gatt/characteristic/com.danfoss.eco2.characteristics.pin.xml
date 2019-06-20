@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Characteristic xsi:noNamespaceSchemaLocation="http://schemas.bluetooth.org/Documents/characteristic.xsd"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Pin Code"
+                type="com.danfoss.eco2.characteristics.pin" uuid="10020001-2749-0001-0000-00805F9B042F" last-modified="2018-05-15"
+                approved="No">
+    <Value>
+        <Field name="Pin Code" system="true">
+            <Requirement>Optional</Requirement>
+            <Format>uint32</Format>
+        </Field>
+    </Value>
+</Characteristic>

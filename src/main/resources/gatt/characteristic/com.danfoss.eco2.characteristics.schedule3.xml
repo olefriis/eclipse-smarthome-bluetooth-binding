@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Characteristic xsi:noNamespaceSchemaLocation="http://schemas.bluetooth.org/Documents/characteristic.xsd"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Schedule 3"
+                type="com.danfoss.eco2.characteristics.schedule3" uuid="1002000F-2749-0001-0000-00805F9B042F" last-modified="2018-05-15"
+                approved="No">
+    <Value>
+        <Field name="Schedule" system="true">
+            <Requirement>Mandatory</Requirement>
+            <Format>struct</Format>
+        </Field>
+    </Value>
+</Characteristic>
