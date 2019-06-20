@@ -6,7 +6,7 @@
     <Value>
         <Field name="Device name" system="true">
             <Requirement>Mandatory</Requirement>
-            <Format>struct</Format>
+            <Format>utf8s</Format>
         </Field>
     </Value>
 </Characteristic>
