@@ -2,6 +2,7 @@ package org.sputnikdev.esh.binding.bluetooth.handler;
 
 import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.Channel;
+import org.eclipse.smarthome.core.thing.Thing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sputnikdev.bluetooth.URL;
@@ -10,12 +11,10 @@ import org.sputnikdev.bluetooth.gattparser.FieldHolder;
 import org.sputnikdev.bluetooth.gattparser.spec.Field;
 import org.sputnikdev.bluetooth.manager.BluetoothGovernor;
 import org.sputnikdev.esh.binding.bluetooth.internal.BluetoothUtils;
+import org.xxtea.XXTEA;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.nio.charset.Charset;
+import java.util.*;
 import java.util.stream.Collectors;
 
 abstract class GattChannelHandler implements ChannelHandler {
@@ -25,6 +24,7 @@ abstract class GattChannelHandler implements ChannelHandler {
     protected final URL url;
     private boolean linked;
     private final boolean readOnly;
+    private final Thing thing;
     private final boolean advanced;
     private final boolean recognised;
     protected final boolean binary;
@@ -33,6 +33,7 @@ abstract class GattChannelHandler implements ChannelHandler {
         this.handler = handler;
         this.url = url;
         this.readOnly = readOnly;
+        this.thing = handler.getThing();
         advanced = handler.getBindingConfig().getAdvancedGattServices().contains(url.getServiceUUID());
         binary = handler.getBindingConfig().discoverBinaryOnly();
         recognised = handler.getParser().isKnownCharacteristic(url.getCharacteristicUUID());
@@ -101,6 +102,17 @@ abstract class GattChannelHandler implements ChannelHandler {
     }
 
     protected void dataChanged(byte[] data, boolean buildMissingChannels) {
+        String encodedSecret = "nazdb5JSeqp3mXH1pH8/HA==";
+        byte[] secret = Base64.getDecoder().decode(encodedSecret);
+
+        if (url.getCharacteristicUUID().equalsIgnoreCase("1002000B-2749-0001-0000-00805F9B042F")) {
+            thing.setProperty("secret", Base64.getEncoder().encodeToString(data));
+        } else if (url.getCharacteristicUUID().equalsIgnoreCase("10020006-2749-0001-0000-00805F9B042F")) {
+            data = XXTEA.decryptEco2String(data, secret);
+        } else if (url.getCharacteristicUUID().toUpperCase().endsWith("-2749-0001-0000-00805F9B042F")) {
+            data = XXTEA.decryptEco2(data, secret);
+        }
+
         if (binary || !recognised) {
             if (buildMissingChannels) {
                 buildMissingBinaryChannel();

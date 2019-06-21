@@ -6,7 +6,15 @@
     <Value>
         <Field name="Temperature" system="true">
             <Requirement>Mandatory</Requirement>
-            <Format>struct</Format>
+            <Format>uint8</Format>
+            <Unit>org.bluetooth.unit.thermodynamic_temperature.degree_celsius</Unit>
+            <BinaryExponent>-1</BinaryExponent>
+        </Field>
+        <Field name="Room Temperature" system="true">
+            <Requirement>Mandatory</Requirement>
+            <Format>uint8</Format>
+            <Unit>org.bluetooth.unit.thermodynamic_temperature.degree_celsius</Unit>
+            <BinaryExponent>-1</BinaryExponent>
         </Field>
     </Value>
 </Characteristic>
